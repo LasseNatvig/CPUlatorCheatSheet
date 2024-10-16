@@ -7,6 +7,7 @@ _start:
 // Register convention on function calls: Parameters passed in R0..R3, additional
 // parameters passed via stack. Values are returned in R0..R1. R0..R3 are caller
 // saved registers, and R4-12 are calle saved registers
+.equ IOdeviceA, 0xc8000000 // directive defining an IO device 
 	MOV R0, #15  // MOVe immediate value 15 (dec) to register R0
 	MOV R8, R0 // MOVe (ie. copy) value of R0 into R8
 	LDR R1, =a // LoaD address of a into Register R1
@@ -33,9 +34,19 @@ kind:
 	POP {R1}
 	POP {R2} // values of R1 and R2 are now swapped
 	// some logical instr here
-// BL, BX, Right shift masking 
-
-
+// BL, BX, Right shift masking  // BX LR typisk
+// memory mapped IO som i PUT JTAG og annet
+// ANDS i put jtag cpulator 3a
+// ldrb i print-loop cpulator3 -- 	ldrb r0, [r1]
+// 	STRB R0, [R5], #1 // store character in buffer and increment buffer pointer
+// prøv med og uten     STRB R0, [R5] // terminate string with \0
+// CMP R0, #0 også mulig BEDRE 	CMP R0, #10 // check if character is newline '\n'
+// 	AND  R0, R0, #0x00FF // return the character masking (i CPUlator 4)
+// ADD with two operands possible     ADD R2, R1
+// STRH R3, [R0,R2]  from genAI2.final
+// bruk av stack LDR R9, [SP,#0]        // Read color (c) from the stack into R9, the #0 offsett is not needed
+// SUBS R8, R8, #1        // Decrement width counter // i genAI2
+// fra test.s i lab1 bne .+8 
 
 
 .section .data
@@ -43,5 +54,7 @@ a: // array a[0], a[1], a[2]
 	.word 10 // decimal values
 	.word 20 // word is 4 bytes
 	.word 30
-x:
+.data
+	Hello: .asciz "Hello "
+	
 	
