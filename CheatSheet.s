@@ -1,16 +1,15 @@
-.global _start 
-_start:
 // CPUlator "cheat-sheet", an appendix at TDT4258-exam November 2024, V0.5
 //************************************************************************
-// Abbreviations used: dec = decimal. mm = immediate
+// Abbreviations used: dec = decimal. imm = immediate
 // Registers: R0, R1 ... R12. R13 = SP, R14 = LR, R15 = PC
 // Register convention on function calls: Parameters passed in R0..R3, additional
 // parameters passed via stack. Values are returned in R0..R1. R0..R3 are caller
-// saved registers, and R4-12 are calle saved registers
+// saved registers, and R4-12 are callee saved registers
+_start:
 .equ IOdeviceA, 0xc8000000 // directive defining an IO device 
-	MOV R0, #15  // MOVe immediate value 15 (dec) to register R0
+    MOV R0, #15  // MOVe immediate value 15 (dec) to register R0
 	MOV R8, R0 // MOVe (ie. copy) value of R0 into R8
-	LDR R1, =a // LoaD address of a into Register R1
+	LDR R1, =a // LoaD address of a into Register R1 (Corresponds to "ADR R1, a" in the textbook)
 	LDR R2, [R1] // LDR, load what R1 points to into R2
 	LDR R3, [R1, #4] // LDR, load what R1 points to + offsett 4 (dec)
 	ADD R4, R2, R3 // ADDs R2 and R3 and stores result in R4
@@ -19,7 +18,7 @@ _start:
 	B proceed // Branch unconditionally to label
 	B . // Branch unconditionally to itself (.), gives endless loop
 proceed: // label
-	CMP R2, R3 // CoMPare register R2 and R3, store result in status register
+	CMP R2, R3 // CoMPare. Computes R2 - R3, sets status bits, throws the result
 	BLT nice // Branch Less Than, branch to label if R2 was less than R3
 	// BEQ=B Equal,BGE greater or equal,NE NotEqual,LT LessThan,GT GreaterThan  
 	MOV R0, #5555 // translated to MOVW (MOV word) since imm const is large
@@ -44,17 +43,23 @@ kind:
 // 	AND  R0, R0, #0x00FF // return the character masking (i CPUlator 4)
 // ADD with two operands possible     ADD R2, R1
 // STRH R3, [R0,R2]  from genAI2.final
-// bruk av stack LDR R9, [SP,#0]        // Read color (c) from the stack into R9, the #0 offsett is not needed
+// bruk av stack LDR R9, [SP,#0] the #0 offsett is not needed, since value is 0
 // SUBS R8, R8, #1        // Decrement width counter // i genAI2
-// fra test.s i lab1 bne .+8 
-
-
+// fra test.s i lab1 bne .+8 tas IKKE med, da bruk av labels er mer lesbart
+	MLA R0, R1, R2, R3 // Få med fra læreboka side 64
+	MUL R0, R1, R2
+	LDR R0, =0xFFFF0000 // Flytt sammen med over
+	LDR R1, =0x0000FFFF
+	AND R3, R0, R1 // Bit-wise AND
+	ORR R3, R0, R1 // Bit-wise OR
+	LSR R0, #1  // Logical Shift Right
+	EOR R3, R0, R1 // Bit-wise exclusive OR
+	BIC R0, R1
 .section .data
 a: // array a[0], a[1], a[2]
 	.word 10 // decimal values
 	.word 20 // word is 4 bytes
 	.word 30
-.data
-	Hello: .asciz "Hello "
+Hello: .asciz "Hello "
 	
 	
