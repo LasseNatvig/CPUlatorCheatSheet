@@ -14,7 +14,7 @@ _start: // Note: the program "does nothing" and is by will made rather compact t
 	LDR R3, [R1, #4] // LDR, load what R1 points to + offsett 4 bytes
 	ADD R4, R2, R3 // ADDs R2 and R3 and stores result in R4. ADD with only two operands is possible
 	ADD R4, R4, #1 // ADDs immediate value 1 (decimal) to R4. 
-	STR R5, [R1]  // offset can be used like for LDR instruction shown above
+	STR R5, [R1]  // SToRe contents of R5 into location given by R1, offset can be used like for LDR above
 	B proceed // Branch unconditionally to label
 	B . // Branch unconditionally to itself (.), gives endless loop
 proceed: // label // The second oprand in a compare instruction can be an immediate value like CMP, R2, #10
