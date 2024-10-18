@@ -55,12 +55,12 @@ nice: SUB R4, R3, #18 // SUBtracts 12 (decimal) from R3 and stores in R4, does n
 	MLA R0, R1, R2, R3 // MuLtiply Accumulate, here R0 is set to the value of (R1 * R2) + R3
 	b .
 PUT_JTAG: // input param char in R0, assumes call by BL
-	LDR R1, =0xFF201000 // JTAG UART base address
-	LDR R2, [R1, #4] // read the JTAG UART control register
+	LDR R1, =0xFF201000 // JTAG UART base address, assigned to R1
+	LDR R2, [R1, #4] // read the JTAG UART control register into R2
 	LDR R3, =0xFFFF0000 // mask, top 16 bits holds write-space
-	ANDS R2, R2, R3 // Logical and, R2 becomes zero if no space available
+	ANDS R2, R2, R3 // Logical AND, R2 becomes zero if no space available, sets status register
 	BEQ PUT_JTAG // if no space, try again (Busy-waiting loop)
-	STR R0, [R1] // send the character
+	STR R0, [R1] // send the character by writing to UART data register
 	BX LR  // return from function using the Link Register LR
 .section .data
 a: // array a[0], a[1], a[2]
