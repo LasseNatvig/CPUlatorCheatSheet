@@ -22,8 +22,7 @@ proceed: // label // The second oprand in a compare instruction can be an immedi
 	BLT nice // Branch Less Than, branch to the label nice if R2 was less than R3. BEQ is Branch Equal
 	         // BGE greater or equal, BNE Branch Not Equal, and GT Branch Greater Than  
 	ADD R4, R4, #1 // This instruction will not be executed, BLT nice will jump over
-nice:
-	SUB R4, R3, #18 // SUBtracts 12 (decimal) from R3 and stores in R4, does not update status register (cpsr)
+nice: SUB R4, R3, #18 // SUBtracts 12 (decimal) from R3 and stores in R4, does not update status register (cpsr)
 	SUBS R4, R3, #18 // Same as above but updates Status register (cpsr). Similar xxxS for some other instructions
 	LSL R2, R4, #2 //Logical Shift Left R4 with 2 bit positions, assign to R2
 	PUSH {R1} // PUSH and POP operates on the stack
