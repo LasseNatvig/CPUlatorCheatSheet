@@ -39,7 +39,7 @@ nice: SUB R4, R3, #18 // SUBtracts 12 (decimal) from R3 and stores in R4, does n
 	ORR R3, R0, R1 // Bit-wise OR of R0 and R1 stored in R3
 	LSR R0, #1  // Logical Shift Right 1 bit position of R0
 	EOR R3, R0, R1 // Bit-wise exclusive OR of R0 and R1 into R3
-	LDR R5, =VGAaddress
+	LDR R5, =VGAaddress  // VGAaddress is defined as 0xc8000000 with .equ directive close to the top
 	LDR R4, =#0x00000f0f	// Green in VGA
 	MOV R3, #0
 	STRH R4, [R5, R3]  // Store half-word of R4, lower 16 bits at address R5 + offset R3
@@ -53,7 +53,7 @@ nice: SUB R4, R3, #18 // SUBtracts 12 (decimal) from R3 and stores in R4, does n
 	AND R5, R4, #0x00FF // Picks the lower byte of R4 and stores in R5 by masking 
 	MUL R0, R1, R2 // MULiply R1 and R2 and store in R0
 	MLA R0, R1, R2, R3 // MuLtiply Accumulate, here R0 is set to the value of (R1 * R2) + R3
-	b .
+	BKPT #0 // Breakpoint, halts the program. Saves energy compared to spinning in a loop with "B ."
 PUT_JTAG: // input param char in R0, assumes call by BL
 	LDR R1, =0xFF201000 // JTAG UART base address, assigned to R1
 	LDR R2, [R1, #4] // read the JTAG UART control register into R2
