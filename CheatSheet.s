@@ -1,4 +1,4 @@
-// CPUlator "cheat-sheet", an appendix for your help at TDT4258-exam November 2024, V1.0, 2024-10-20.
+// CPUlator "cheat-sheet", an appendix for your help at TDT4258-exam November 2024, V1.0, 2024-10-28.
 //***********************************************************************************************************
 // Registers: R0, R1 ... R12. R13 = SP, R14 = LR, R15 = PC    // Comments should be e-mailed to Lasse Natvig.
 // Register convention on function calls: Parameters passed in R0..R3, additional parameters passed via stack 
